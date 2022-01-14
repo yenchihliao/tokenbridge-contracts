@@ -124,7 +124,7 @@ contract BasicForeignAMB is BasicAMB, MessageRelay, MessageDelivery {
     * @param _gasPrice new value for the gas price, zero gas price is not allowed.
     */
     function _setGasPrice(uint256 _gasPrice) internal {
-        require(_gasPrice > 0);
+        // require(_gasPrice > 0);
         super._setGasPrice(_gasPrice);
     }
 }

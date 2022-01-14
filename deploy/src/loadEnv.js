@@ -47,9 +47,9 @@ function checkValidators(validators, requiredValidators) {
 }
 
 function checkGasPrices(gasPrice, prefix) {
-  if (gasPrice.isZero()) {
-    throw new Error(`${prefix}_GAS_PRICE should be bigger than zero.`)
-  }
+  // if (gasPrice.isZero()) {
+  //   throw new Error(`${prefix}_GAS_PRICE should be bigger than zero.`)
+  // }
 }
 
 function checkBlockConfirmations(confirmations, prefix) {
