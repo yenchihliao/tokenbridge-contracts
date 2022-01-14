@@ -71,7 +71,7 @@ async function initializeBridge({ validatorsBridge, bridge, initialNonce }) {
   return nonce
 }
 
-async function deployForeign() {
+async function deployForeign(chainId=null) {
   console.log('========================================')
   console.log('Deploying Arbitrary Message Bridge at Foreign')
   console.log('========================================\n')

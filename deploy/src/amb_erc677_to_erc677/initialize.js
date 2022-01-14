@@ -56,7 +56,7 @@ async function initialize({
   },
   upgradeableAdmin,
   sendRawTx
-}) {
+}, chainId = null) {
   let nonce = await web3.eth.getTransactionCount(DEPLOYMENT_ACCOUNT_ADDRESS)
 
   const contract = new web3.eth.Contract(abi, address)
@@ -92,7 +92,7 @@ async function initialize({
     to: address,
     privateKey: deploymentPrivateKey,
     url
-  })
+  }, chainId)
 
   if (txInitialize.status) {
     assert.strictEqual(Web3Utils.hexToNumber(txInitialize.status), 1, 'Transaction Failed')
@@ -108,10 +108,10 @@ async function initialize({
     newOwner: upgradeableAdmin,
     nonce,
     url
-  })
+  }, chainId)
 }
 
-async function initializeBridges({ homeBridge, foreignBridge, homeErc677 }) {
+async function initializeBridges({ homeBridge, foreignBridge, homeErc677 }, homeChainId, foreignChainId) {
   const foreignToHomeDecimalShift = FOREIGN_TO_HOME_DECIMAL_SHIFT || 0
 
   console.log('\n[Home] Initializing Bridge Mediator with following parameters:\n')
@@ -136,7 +136,7 @@ async function initializeBridges({ homeBridge, foreignBridge, homeErc677 }) {
     },
     upgradeableAdmin: HOME_UPGRADEABLE_ADMIN,
     sendRawTx: sendRawTxHome
-  })
+  }, homeChainId)
 
   console.log('\n[Foreign] Initializing Bridge Mediator with following parameters:\n')
   await initialize({

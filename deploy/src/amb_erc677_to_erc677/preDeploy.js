@@ -10,6 +10,8 @@ const {
 const { isContract } = require('../deploymentUtils')
 
 async function preDeploy() {
+  const homeChainId = await web3Home.eth.getChainId()
+  const foreignChainId = await web3Foreign.eth.getChainId()
   const isERC20AContract = await isContract(web3Foreign, ERC20_TOKEN_ADDRESS)
   if (!isERC20AContract) {
     throw new Error(`ERC20_TOKEN_ADDRESS should be a contract address`)
@@ -36,6 +38,7 @@ async function preDeploy() {
       throw new Error(`BLOCK_REWARD_ADDRESS should be a contract address`)
     }
   }
+  return [homeChainId, foreignChainId]
 }
 
 module.exports = preDeploy

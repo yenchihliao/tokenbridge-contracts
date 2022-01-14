@@ -7,7 +7,7 @@ const { DEPLOYMENT_ACCOUNT_PRIVATE_KEY } = require('../loadEnv')
 
 const DEPLOYMENT_ACCOUNT_ADDRESS = privateKeyToAddress(DEPLOYMENT_ACCOUNT_PRIVATE_KEY)
 
-async function deployForeign() {
+async function deployForeign(chainId = null) {
   let nonce = await web3Foreign.eth.getTransactionCount(DEPLOYMENT_ACCOUNT_ADDRESS)
 
   console.log('\n[Foreign] Deploying Bridge Mediator storage\n')

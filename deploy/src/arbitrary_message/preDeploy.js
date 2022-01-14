@@ -9,6 +9,7 @@ async function preDeploy() {
       `Chain ids on Home and Foreign networks should be different. Got the same value of ${homeChainId} on both networks instead.`
     )
   }
+  return [homeChainId, foreignChainId]
 }
 
 module.exports = preDeploy

@@ -35,9 +35,9 @@ async function deployArbitraryMessage() {
   const preDeploy = require('./src/arbitrary_message/preDeploy')
   const deployHome = require('./src/arbitrary_message/home')
   const deployForeign = require('./src/arbitrary_message/foreign')
-  await preDeploy()
-  const { homeBridge } = await deployHome()
-  const { foreignBridge } = await deployForeign()
+  const [homeChainId, foreignChainId] = await preDeploy()
+  const { homeBridge } = await deployHome(homeChainId)
+  const { foreignBridge } = await deployForeign(foreignChainId)
   console.log('\nDeployment has been completed.\n\n')
   console.log(`[   Home  ] HomeBridge: ${homeBridge.address} at block ${homeBridge.deployedBlockNumber}`)
   console.log(`[ Foreign ] ForeignBridge: ${foreignBridge.address} at block ${foreignBridge.deployedBlockNumber}`)
@@ -56,14 +56,14 @@ async function deployAMBErcToErc() {
   const deployHome = require('./src/amb_erc677_to_erc677/home')
   const deployForeign = require('./src/amb_erc677_to_erc677/foreign')
   const initialize = require('./src/amb_erc677_to_erc677/initialize')
-  await preDeploy()
-  const { homeBridgeMediator, bridgeableErc677 } = await deployHome()
-  const { foreignBridgeMediator } = await deployForeign()
+  const [homeChainId, foreignChainId] = await preDeploy()
+  const { homeBridgeMediator, bridgeableErc677 } = await deployHome(homeChainId)
+  const { foreignBridgeMediator } = await deployForeign(foreignChainId)
   await initialize({
     homeBridge: homeBridgeMediator.address,
     foreignBridge: foreignBridgeMediator.address,
     homeErc677: bridgeableErc677.address
-  })
+  }, homeChainId, foreignChainId)
   console.log('\nDeployment has been completed.\n\n')
   console.log(`[   Home  ] Bridge Mediator: ${homeBridgeMediator.address}`)
   console.log(`[   Home  ] ERC677 Bridgeable Token: ${bridgeableErc677.address}`)

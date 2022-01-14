@@ -32,7 +32,7 @@ const {
 
 const DEPLOYMENT_ACCOUNT_ADDRESS = privateKeyToAddress(DEPLOYMENT_ACCOUNT_PRIVATE_KEY)
 
-async function initializeBridge({ validatorsBridge, bridge, initialNonce }) {
+async function initializeBridge({ validatorsBridge, bridge, initialNonce }, chainId = null) {
   let nonce = initialNonce
 
   const homeChainId = await web3Home.eth.getChainId()
@@ -60,7 +60,7 @@ async function initializeBridge({ validatorsBridge, bridge, initialNonce }) {
     to: bridge.options.address,
     privateKey: deploymentPrivateKey,
     url: HOME_RPC_URL
-  })
+  }, chainId)
   if (txInitializeHomeBridge.status) {
     assert.strictEqual(Web3Utils.hexToNumber(txInitializeHomeBridge.status), 1, 'Transaction Failed')
   } else {
@@ -71,7 +71,7 @@ async function initializeBridge({ validatorsBridge, bridge, initialNonce }) {
   return nonce
 }
 
-async function deployHome() {
+async function deployHome(chainId = null) {
   console.log('========================================')
   console.log('Deploying Arbitrary Message Bridge at Home')
   console.log('========================================\n')
@@ -82,7 +82,7 @@ async function deployHome() {
   const storageValidatorsHome = await deployContract(EternalStorageProxy, [], {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     nonce
-  })
+  }, chainId)
   console.log('[Home] BridgeValidators Storage: ', storageValidatorsHome.options.address)
   nonce++
 
@@ -90,7 +90,7 @@ async function deployHome() {
   const bridgeValidatorsHome = await deployContract(BridgeValidators, [], {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     nonce
-  })
+  }, chainId)
   console.log('[Home] BridgeValidators Implementation: ', bridgeValidatorsHome.options.address)
   nonce++
 
@@ -101,7 +101,7 @@ async function deployHome() {
     version: '1',
     nonce,
     url: HOME_RPC_URL
-  })
+  }, chainId)
   nonce++
 
   console.log('\ninitializing Home Bridge Validators with following parameters:\n')
@@ -115,7 +115,7 @@ async function deployHome() {
     owner: HOME_VALIDATORS_OWNER,
     nonce,
     url: HOME_RPC_URL
-  })
+  }, chainId)
   nonce++
 
   console.log('transferring proxy ownership to multisig for Validators Proxy contract')
@@ -124,14 +124,14 @@ async function deployHome() {
     newOwner: HOME_UPGRADEABLE_ADMIN,
     nonce,
     url: HOME_RPC_URL
-  })
+  }, chainId)
   nonce++
 
   console.log('\ndeploying HomeAMBridge storage\n')
   const homeBridgeStorage = await deployContract(EternalStorageProxy, [], {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     nonce
-  })
+  }, chainId)
   nonce++
   console.log('[Home] HomeAMBridge Storage: ', homeBridgeStorage.options.address)
 
@@ -139,7 +139,7 @@ async function deployHome() {
   const homeBridgeImplementation = await deployContract(HomeBridge, [], {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     nonce
-  })
+  }, chainId)
   nonce++
   console.log('[Home] HomeAMBridge Implementation: ', homeBridgeImplementation.options.address)
 
@@ -150,7 +150,7 @@ async function deployHome() {
     version: '1',
     nonce,
     url: HOME_RPC_URL
-  })
+  }, chainId)
   nonce++
 
   homeBridgeImplementation.options.address = homeBridgeStorage.options.address
@@ -158,7 +158,7 @@ async function deployHome() {
     validatorsBridge: storageValidatorsHome,
     bridge: homeBridgeImplementation,
     initialNonce: nonce
-  })
+  }, chainId)
 
   console.log('transferring proxy ownership to multisig for Home bridge Proxy contract')
   await transferProxyOwnership({
@@ -166,7 +166,7 @@ async function deployHome() {
     newOwner: HOME_UPGRADEABLE_ADMIN,
     nonce,
     url: HOME_RPC_URL
-  })
+  }, chainId)
 
   console.log('\nDeployment of Arbitrary Message Bridge at Home completed\n')
   return {
