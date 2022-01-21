@@ -160,7 +160,7 @@ async function initializeBridges({ homeBridge, foreignBridge, homeErc677 }, home
     },
     upgradeableAdmin: FOREIGN_UPGRADEABLE_ADMIN,
     sendRawTx: sendRawTxForeign
-  })
+  }, foreignChainId)
 }
 
 module.exports = initializeBridges

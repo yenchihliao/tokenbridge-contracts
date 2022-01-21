@@ -15,7 +15,7 @@ async function deployForeign(chainId = null) {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     network: 'foreign',
     nonce
-  })
+  }, chainId)
   nonce++
   console.log('[Foreign] Bridge Mediator Storage: ', foreignBridgeStorage.options.address)
 
@@ -24,7 +24,7 @@ async function deployForeign(chainId = null) {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     network: 'foreign',
     nonce
-  })
+  }, chainId)
   nonce++
   console.log('[Foreign] Bridge Mediator Implementation: ', foreignBridgeImplementation.options.address)
 
@@ -35,7 +35,7 @@ async function deployForeign(chainId = null) {
     version: '1',
     nonce,
     url: FOREIGN_RPC_URL
-  })
+  }, chainId)
 
   console.log('\nForeign part of ERC677-to-ERC677 bridge deployed\n')
   return {

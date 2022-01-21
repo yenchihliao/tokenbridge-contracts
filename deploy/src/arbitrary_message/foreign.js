@@ -32,7 +32,7 @@ const {
 
 const DEPLOYMENT_ACCOUNT_ADDRESS = privateKeyToAddress(DEPLOYMENT_ACCOUNT_PRIVATE_KEY)
 
-async function initializeBridge({ validatorsBridge, bridge, initialNonce }) {
+async function initializeBridge({ validatorsBridge, bridge, initialNonce }, chainId=null) {
   let nonce = initialNonce
 
   const homeChainId = await web3Home.eth.getChainId()
@@ -60,7 +60,7 @@ async function initializeBridge({ validatorsBridge, bridge, initialNonce }) {
     to: bridge.options.address,
     privateKey: deploymentPrivateKey,
     url: FOREIGN_RPC_URL
-  })
+  }, chainId)
   if (txInitializeBridge.status) {
     assert.strictEqual(Web3Utils.hexToNumber(txInitializeBridge.status), 1, 'Transaction Failed')
   } else {
@@ -83,7 +83,7 @@ async function deployForeign(chainId=null) {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     network: 'foreign',
     nonce
-  })
+  }, chainId)
   nonce++
   console.log('[Foreign] BridgeValidators Storage: ', storageValidatorsForeign.options.address)
 
@@ -92,7 +92,7 @@ async function deployForeign(chainId=null) {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     network: 'foreign',
     nonce
-  })
+  }, chainId)
   nonce++
   console.log('[Foreign] BridgeValidators Implementation: ', bridgeValidatorsForeign.options.address)
 
@@ -103,7 +103,7 @@ async function deployForeign(chainId=null) {
     version: '1',
     nonce,
     url: FOREIGN_RPC_URL
-  })
+  }, chainId)
   nonce++
 
   console.log('\ninitializing Foreign Bridge Validators with following parameters:\n')
@@ -117,7 +117,7 @@ async function deployForeign(chainId=null) {
     owner: FOREIGN_VALIDATORS_OWNER,
     nonce,
     url: FOREIGN_RPC_URL
-  })
+  }, chainId)
   nonce++
 
   console.log('\nTransferring ownership of ValidatorsProxy\n')
@@ -126,7 +126,7 @@ async function deployForeign(chainId=null) {
     newOwner: FOREIGN_UPGRADEABLE_ADMIN,
     nonce,
     url: FOREIGN_RPC_URL
-  })
+  }, chainId)
   nonce++
 
   console.log('\ndeploying ForeignAMBridge storage\n')
@@ -134,7 +134,7 @@ async function deployForeign(chainId=null) {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     network: 'foreign',
     nonce
-  })
+  }, chainId)
   nonce++
   console.log('[Foreign] ForeignAMBridge Storage: ', foreignBridgeStorage.options.address)
 
@@ -143,7 +143,7 @@ async function deployForeign(chainId=null) {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     network: 'foreign',
     nonce
-  })
+  }, chainId)
   nonce++
   console.log('[Foreign] ForeignAMBridge Implementation: ', foreignBridgeImplementation.options.address)
 
@@ -154,7 +154,7 @@ async function deployForeign(chainId=null) {
     version: '1',
     nonce,
     url: FOREIGN_RPC_URL
-  })
+  }, chainId)
   nonce++
 
   console.log('\ninitializing Foreign Bridge with following parameters:\n')
@@ -163,7 +163,7 @@ async function deployForeign(chainId=null) {
     validatorsBridge: storageValidatorsForeign,
     bridge: foreignBridgeImplementation,
     initialNonce: nonce
-  })
+  }, chainId)
 
   console.log('transferring proxy ownership to multisig for Foreign bridge Proxy contract')
   await transferProxyOwnership({
@@ -171,7 +171,7 @@ async function deployForeign(chainId=null) {
     newOwner: FOREIGN_UPGRADEABLE_ADMIN,
     nonce,
     url: FOREIGN_RPC_URL
-  })
+  }, chainId)
 
   console.log('\nDeployment of Arbitrary Message Bridge at Foreign completed\n')
 
