@@ -1,0 +1,14 @@
+{
+  "home": {
+    "bridgeValidator": "0x602F25BEd974fd180D58De26B505aB0f68E7F816",
+    "bridge":"0x0C1EB39E218446DF096020F0B987360A7daad37F",
+    "mediator":"0x94E2994B7f8bcd1aFD7bD230A1859B2BFFAe92D6",
+    "token": "0x19A3Fe480cE990d3385d201982B813aebc14dD35"
+  },
+  "foreign": {
+    "bridgeValidator": "0x44fE0df663b2b8a4E0F9CE33F6106AD4e570125B",
+    "bridge":"0xd12dc8c607B002bD448b0Eff2A5814dd0b064AF0",
+    "mediator": "0xc1367bA9758677c39d76EE3278A4E20E3ce876a4",
+    "token": "0x6A78AD4C1e66cf12ebCe3536b82CB88C6E499442"
+  }
+}
