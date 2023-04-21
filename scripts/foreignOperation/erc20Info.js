@@ -10,6 +10,7 @@ async function main() {
 
   console.log(await erc20.balanceOf(admin.address));
   console.log(await erc20.balanceOf(addr2.address));
+  console.log(await erc20.balanceOf(config.mediator));
   console.log(await erc20.balanceOf(SAccount));
   // tx = await BV.setDevWhitelist(devList.address);
   // rc = await tx.wait();

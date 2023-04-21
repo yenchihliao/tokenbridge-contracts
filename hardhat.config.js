@@ -40,6 +40,17 @@ module.exports = {
       chainId: 5,
       accounts: privateKey,
     },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${infuraProjectId}`,
+      chainId: 11155111,
+      accounts: privateKey,
+    },
+    lab2: {
+      url: `https://lab2-rpc.taisys.dev`,
+      chainId: 2643,
+      accounts: privateKey,
+    },
+
   },
   etherscan: {
     apiKey: {
@@ -62,6 +73,20 @@ module.exports = {
       urls: {
         apiURL: "https://node.taisys.dev/api",
         browserURL: "https://node.taisys.dev/"
+      }
+    },
+    {
+      network: "sepolia",
+      chainId: 11155111,
+      urls: {
+        apiURL: `https://sepolia.infura.io/v3/${infuraProjectId}`,
+      }
+    },
+    {
+      network: "lab2",
+      chainId: 2643,
+      urls: {
+        apiURL: "https://lab2-rpc.taisys.dev",
       }
     },
     {

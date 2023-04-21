@@ -11,16 +11,20 @@ async function main() {
   // get validator contract and its attributes
   validatorAddress = await bridge.validatorContract();
   const validator = await ethers.getContractAt("BridgeValidators", validatorAddress);
+  console.log(await validator.owner());
   console.log(await validator.validatorList());
   console.log(await validator.requiredSignatures());
 
+  // setting parameters
+  newValidator = "0x...";
+  requiredSignature = 2;
   // change those attributes
-  // tx = await validator.addValidator(addr2.address); rc = await tx.wait(); console.log(rc.status);
-  // tx = await validator.setRequiredSignatures(2); rc = await tx.wait(); console.log(rc.status);
+  tx = await validator.addValidator(newValidator); rc = await tx.wait(); console.log(rc.status);
+  tx = await validator.setRequiredSignatures(requiredSignature); rc = await tx.wait(); console.log(rc.status);
 
   // visulize changes
-  // console.log(await validator.validatorList());
-  // console.log(await validator.requiredSignatures());
+  console.log(await validator.validatorList());
+  console.log(await validator.requiredSignatures());
 }
 
 main()
